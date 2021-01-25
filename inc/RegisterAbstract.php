@@ -311,16 +311,9 @@ abstract class RegisterAbstract
      *
      * @return string
      */
-    private function set_index_name($post_ID)
+    private function set_index_name()
     {
-        if (\function_exists('pll_get_post_language')) {
-            $post_locale = pll_get_post_language($post_ID);
-            $this->locale = $post_locale ? $post_locale : pll_default_language('slug');
-            return implode('_', array($this->index_name_base, $this->locale));
-        } else {
-            return $this->index_name_base;
-        }
-
+        return $this->index_name_base;
     }
 
     /**
@@ -333,7 +326,7 @@ abstract class RegisterAbstract
      */
     private function algolia_index($post_ID)
     {
-        return new \WpAlgolia\AlgoliaIndex($this->set_index_name($post_ID), $this->algolia_client, $this->index_settings, $this->log, $this);
+        return new \WpAlgolia\AlgoliaIndex($this->set_index_name(), $this->algolia_client, $this->index_settings, $this->log, $this);
     }
 
     /**

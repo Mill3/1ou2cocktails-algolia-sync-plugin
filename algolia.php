@@ -5,10 +5,10 @@
  * GitHub Plugin URI:  https://github.com/Mill3/denise-pelletier-algolia-sync-plugin
  * Plugin Name: 1ou2Cocktails - Algolia Sync
  * Description: Sync data from Wordpress to Algolia
- * Version: 0.5.1
+ * Version: 0.5.2
  * Author Name: Mill3 Studio (Antoine Girard)
  *
- * @package CSTJ_Algolia_Sync
+ * @package Mill3_WP_Algolia_Sync
  */
 
 namespace WpAlgolia;
@@ -54,7 +54,7 @@ add_action(
         }
 
         if(!defined('ALGOLIA_PREFIX')) {
-            define('ALGOLIA_PREFIX', 'prod_');
+            define('ALGOLIA_PREFIX', 'production_');
         }
 
         require_once __DIR__ . '/vendor/autoload.php';

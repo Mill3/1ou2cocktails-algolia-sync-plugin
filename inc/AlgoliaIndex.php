@@ -192,15 +192,15 @@ class AlgoliaIndex
     /**
      * Cache an Algolia index.
      */
-    // public function cache_index()
-    // {
-    //     set_transient($this->cache_key_index(), $this->index, 3600);
-    // }
+    public function cache_index()
+    {
+        set_transient($this->cache_key_index(), $this->index, 3600);
+    }
 
-    // public function get_cached_index()
-    // {
-    //     return get_transient($this->cache_key_index());
-    // }
+    public function get_cached_index()
+    {
+        return get_transient($this->cache_key_index());
+    }
 
     public function cache_object($postID)
     {
@@ -232,22 +232,23 @@ class AlgoliaIndex
      */
     public function init_index($settings = false)
     {
-        // $cached_index = $this->get_cached_index();
+        $cached_index = $this->get_cached_index();
 
-        // // cache found, set stored value to class
-        // if ($cached_index) {
-        //     // $this->log->info('Use cached index');
+        // cache found, set stored value to class
+        if ($cached_index) {
+            // $this->log->info('Use cached index');
 
-        //     $this->index = $cached_index;
+            $this->index = $cached_index;
 
-        //     if($settings) {
-        //         $this->index->setSettings($this->index_settings['config']);
-        //     }
+            if($settings) {
+                $this->index->setSettings($this->index_settings['config']);
+            }
 
-        //     return;
+            return;
 
-        //     // no cache is set, create index with settings
-        // }
+        }
+
+        // no cache is set, create index with settings
 
         // init index in Algolia
         $this->index = $this->algolia_client->initIndex($this->index_name);
@@ -258,7 +259,7 @@ class AlgoliaIndex
         }
 
         // trigger cache storage
-        // $this->cache_index();
+        $this->cache_index();
     }
 
     /**

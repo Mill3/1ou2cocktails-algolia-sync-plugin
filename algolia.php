@@ -1,11 +1,11 @@
 <?php
 
 /**
- * GitHub Plugin URI:  Mill3/denise-pelletier-algolia-sync-plugin
- * GitHub Plugin URI:  https://github.com/Mill3/denise-pelletier-algolia-sync-plugin
+ * GitHub Plugin URI:  Mill3/1ou2cocktails-algolia-sync-plugin
+ * GitHub Plugin URI:  https://github.com/Mill3/1ou2cocktails-algolia-sync-plugin
  * Plugin Name: 1ou2Cocktails - Algolia Sync
  * Description: Sync data from Wordpress to Algolia
- * Version: 0.5.2
+ * Version: 0.5.3
  * Author Name: Mill3 Studio (Antoine Girard)
  *
  * @package Mill3_WP_Algolia_Sync

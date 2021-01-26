@@ -351,7 +351,7 @@ abstract class RegisterAbstract
                 \WP_CLI::line(sprintf(__('Updating index "%s" with PostID %s : %s', 'wp_algolia'), $this->get_post_type(), $post->ID, $post->post_title));
             }
 
-            $this->algolia_index($post->ID)->save($post->ID, $post);
+            $this->algolia_index()->save($post->ID, $post);
         }
     }
 

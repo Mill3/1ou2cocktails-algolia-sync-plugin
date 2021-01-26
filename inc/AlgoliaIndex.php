@@ -152,6 +152,10 @@ class AlgoliaIndex
             }
         }
 
+        // clear cache keys
+        $this->delete_cached_object($postID);
+        $this->delete_cached_query($data['locale']);
+
         // save object
         $this->index->saveObject($data);
     }
@@ -224,9 +228,15 @@ class AlgoliaIndex
         return get_transient($this->cache_key_query($locale));
     }
 
+    public function delete_cached_query($locale)
+    {
+        // echo $this->get_cached_query($locale);
+        delete_transient($this->cache_key_query($locale));
+    }
+
     public function delete_cached_object($postID)
     {
-        return delete_transient($this->cache_key_query());
+        delete_transient($this->cache_key_object($postID));
     }
 
     public function cache_key_index()

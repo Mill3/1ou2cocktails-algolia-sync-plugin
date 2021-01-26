@@ -324,7 +324,7 @@ abstract class RegisterAbstract
      *
      * @return class AlgoliaIndex
      */
-    private function algolia_index($post_ID)
+    private function algolia_index()
     {
         return new \WpAlgolia\AlgoliaIndex($this->set_index_name(), $this->algolia_client, $this->index_settings, $this->log, $this);
     }
@@ -353,6 +353,30 @@ abstract class RegisterAbstract
 
             $this->algolia_index($post->ID)->save($post->ID, $post);
         }
+    }
+
+    /**
+     * Query : all posts
+     * Get all post from index
+     *
+     * @return null
+     */
+    public function query($locale = 'en') {
+        $cached_query = $this->algolia_index()->get_cached_query($locale);
+
+        if($cached_query) return $cached_query;
+
+        // run Algolia query
+        $data = $this->algolia_index()->index->search('', [
+            'filters' => "post_type:{$this->get_post_type()} AND (locale:{$locale})",
+            'hitsPerPage' => 9999
+        ]);
+
+        // save query in cache
+        $this->algolia_index()->cache_query($data, $locale);
+
+        // return query data
+        return $data;
     }
 
     /**

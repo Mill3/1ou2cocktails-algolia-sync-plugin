@@ -3,7 +3,7 @@
 /**
  * This file is part of WpAlgolia plugin.
  * (c) Antoine Girard for Mill3 Studio <antoine@mill3.studio>
- * @version 0.0.2
+ * @version 0.5.4
  */
 
 namespace WpAlgolia;
@@ -214,14 +214,29 @@ class AlgoliaIndex
         return get_transient($this->cache_key_object($postID));
     }
 
+    public function cache_query($data, $locale)
+    {
+        set_transient($this->cache_key_query($locale), $data, 600);
+    }
+
+    public function get_cached_query($locale)
+    {
+        return get_transient($this->cache_key_query($locale));
+    }
+
     public function delete_cached_object($postID)
     {
-        return delete_transient($this->cache_key_object($postID));
+        return delete_transient($this->cache_key_query());
     }
 
     public function cache_key_index()
     {
         return "wp-algolia-index-initialized-{$this->index_name}";
+    }
+
+    public function cache_key_query($locale)
+    {
+        return "wp-algolia-query-{$this->index_name}-{$locale}";
     }
 
     public function cache_key_object($postID)

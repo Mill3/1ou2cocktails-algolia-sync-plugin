@@ -3,8 +3,8 @@
 /**
  * This file is part of WpAlgolia plugin.
  * (c) Antoine Girard for Mill3 Studio <antoine@mill3.studio>
- * @version 0.0.2
- * @since 0.0.2
+ * @version 0.5.4
+ * @since 0.5.4
  */
 
 
@@ -31,6 +31,8 @@ interface RegisterInterface
     public function manage_admin_column($column, $post_id);
 
     public function cli_reindex();
+
+    public function query($locale);
 
     public function cli_set_settings($locale);
 

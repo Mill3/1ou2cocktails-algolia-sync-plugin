@@ -1,11 +1,11 @@
 <?php
 
-/*
- * This file is part of WpAlgolia library.
- * (c) Raymond Rutjes for Algolia <raymond.rutjes@algolia.com>
- * This source file is subject to the MIT license that is bundled
- * with this source code in the file LICENSE.
+/**
+ * This file is part of WpAlgolia plugin.
+ * (c) Antoine Girard for Mill3 Studio <antoine@mill3.studio>
+ * @version 0.5.4
  */
+
 
 namespace WpAlgolia;
 

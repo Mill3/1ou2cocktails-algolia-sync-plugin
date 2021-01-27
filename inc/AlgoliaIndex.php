@@ -3,13 +3,10 @@
 /**
  * This file is part of WpAlgolia plugin.
  * (c) Antoine Girard for Mill3 Studio <antoine@mill3.studio>
- * @version 0.5.4
+ * @version 0.0.7
  */
 
 namespace WpAlgolia;
-
-use Monolog\Handler\StreamHandler;
-use Monolog\Logger;
 
 class AlgoliaIndex
 {
@@ -68,6 +65,8 @@ class AlgoliaIndex
      * @param string $index_name
      * @param object $algolia_client
      * @param array  $index_settings
+     * @param mixed  $log
+     * @param mixed  $instance
      */
     public function __construct($index_name, $algolia_client, $index_settings = array('config' => array()), $log, $instance)
     {
@@ -97,42 +96,47 @@ class AlgoliaIndex
     public function save($postID, $post)
     {
         $data = array(
-            'objectID'          => $this->index_objectID($post->ID),
-            'post_title'        => $post->post_title,
-            'post_thumbnail'    => get_the_post_thumbnail_url($post, 'post-thumbnail'),
+            'objectID'                => $this->index_objectID($post->ID),
+            'post_title'              => $post->post_title,
+            'post_thumbnail'          => get_the_post_thumbnail_url($post, 'largest'),
+            'post_thumbnail_sizes'    => array(
+                'small'    => get_the_post_thumbnail_url($post, 'small'),
+                'large'    => get_the_post_thumbnail_url($post, 'large'),
+                'largest'  => get_the_post_thumbnail_url($post, 'largest'),
+                'full'     => get_the_post_thumbnail_url($post, 'full'),
+            ),
             'date'              => get_the_date('c', $post->ID),
             'timestamp'         => get_the_date('U', $post->ID),
             'excerpt'           => $post->post_excerpt ? $this->prepareTextContent($post->post_excerpt) : $this->prepareTextContent($post->post_content, 125),
             'content'           => $this->prepareTextContent($post->post_content),
             'url'               => get_permalink($post->ID),
-            'post_type'         => get_post_type($post->ID)
+            'post_type'         => get_post_type($post->ID),
         );
 
         // attach post locale, set to defaults if not set yet
         if (\function_exists('pll_get_post_language')) {
             $post_locale = pll_get_post_language($post->ID);
-            $data['locale'] = $post_locale ? $post_locale : pll_default_language('slug');
+            $data['locale'] = $post_locale ?: pll_default_language('slug');
         }
 
         // handle extra fields formating per post-type
-        if(method_exists($this->instance, 'extraFields')) {
+        if (method_exists($this->instance, 'extraFields')) {
             $data = $this->instance->extraFields($data, $post, $this->log);
         }
 
         // append each custom field values
         foreach ($this->index_settings['acf_fields'] as $key => $field) {
-
             // get ACF data
-            if (is_array($field)) {
+            if (\is_array($field)) {
                 $field_data = get_field($key, $postID);
             } else {
                 $field_data = get_field($field, $postID);
             }
 
-            if($field_data) {
-                if ( is_array($field) ) {
+            if ($field_data) {
+                if (\is_array($field)) {
                     foreach ($field as $field_label) {
-                        if (count($field) === 1) {
+                        if (1 === \count($field)) {
                             $data[$key] = $this->prepareTextContent($field_data->$field_label);
                         } else {
                             $data["{$key}_{$field_label}"] = $this->prepareTextContent($field_data->$field_label);
@@ -141,7 +145,7 @@ class AlgoliaIndex
                 } else {
                     $data[$field] = $this->prepareTextContent($field_data);
                 }
-            };
+            }
         }
 
         // append extra taxonomies
@@ -256,6 +260,8 @@ class AlgoliaIndex
 
     /**
      * Init Algolia index and set its settings.
+     *
+     * @param mixed $settings
      */
     public function init_index($settings = false)
     {
@@ -267,12 +273,11 @@ class AlgoliaIndex
 
             $this->index = $cached_index;
 
-            if($settings) {
+            if ($settings) {
                 $this->index->setSettings($this->index_settings['config']);
             }
 
             return;
-
         }
 
         // no cache is set, create index with settings
@@ -281,7 +286,7 @@ class AlgoliaIndex
         $this->index = $this->algolia_client->initIndex($this->index_name);
 
         // set settings
-        if($settings) {
+        if ($settings) {
             $this->index->setSettings($this->index_settings['config']);
         }
 
@@ -305,12 +310,13 @@ class AlgoliaIndex
      * Strig tags from raw field.
      *
      * @param string $content
+     * @param mixed  $trimLength
      *
      * @return string
      */
     private function prepareTextContent($content, $trimLength = 0)
     {
-        if(gettype($content) != 'string') {
+        if ('string' !== \gettype($content)) {
             return $content;
         }
 

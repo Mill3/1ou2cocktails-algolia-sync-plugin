@@ -5,7 +5,7 @@
  * GitHub Plugin URI:  https://github.com/Mill3/1ou2cocktails-algolia-sync-plugin
  * Plugin Name: 1ou2Cocktails - Algolia Sync
  * Description: Sync data from Wordpress to Algolia
- * Version: 0.5.6
+ * Version: 0.5.7
  * Author Name: Mill3 Studio (Antoine Girard)
  *
  * @package Mill3_WP_Algolia_Sync

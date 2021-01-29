@@ -150,9 +150,35 @@ class AlgoliaIndex
 
         // append extra taxonomies
         foreach ($this->index_settings['taxonomies'] as $key => $taxonomy) {
-            $terms = wp_get_post_terms($post->ID, $taxonomy);
+            $term_name = null;
+            $is_array = false;
+            $acf_fields = null;
+
+            // check if taxonomy is defined as an array in post-type register config
+            if (\is_array($taxonomy)) {
+                $is_array = true;
+                $term_name = $taxonomy['name'];
+                $acf_fields = is_array($taxonomy['acf_fields']) ? $taxonomy['acf_fields'] : null;
+            } else {
+                $term_name = $taxonomy;
+            }
+
+            // get all post terms
+            $terms = wp_get_post_terms($post->ID, $term_name);
+
             foreach ($terms as $key => $term) {
-                $data[$taxonomy][$key] = $term->name;
+                // when taxonomy is defined as an array
+                if($is_array && $acf_fields) {
+                    // add term name to record
+                    $data[$term_name][$key]['name'] = $term->name;
+
+                    // get each registered acf field on the same term
+                    foreach ($acf_fields as $acf_field) {
+                        $data[$term_name][$key][$acf_field] = get_field($acf_field, $term);
+                    }
+                } else {
+                    $data[$term_name][$key] = $term->name;
+                }
             }
         }
 

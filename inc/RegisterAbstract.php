@@ -54,8 +54,17 @@ abstract class RegisterAbstract
 
         // Taxonomies actions
         foreach ($this->index_settings['taxonomies'] as $key => $taxonomy) {
-            add_action("edited_{$taxonomy}", array($this, 'update_taxonomy_posts'), 10, 2);
-            add_action("delete_{$taxonomy}", array($this, 'update_taxonomy_posts'), 10, 2);
+            $term_name = '';
+
+            // get ACF data
+            if (\is_array($taxonomy)) {
+                $term_name = $taxonomy['name'];
+            } else {
+                $term_name = $taxonomy;
+            }
+
+            add_action("edited_{$term_name}", array($this, 'update_taxonomy_posts'), 10, 2);
+            add_action("delete_{$term_name}", array($this, 'update_taxonomy_posts'), 10, 2);
         }
     }
 

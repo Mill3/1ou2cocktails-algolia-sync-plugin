@@ -17,7 +17,7 @@ class Cocktail extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInt
 
     public $acf_fields = array('subtitle', 'ingredients', 'steps');
 
-    public $taxonomies = array('spirit', 'type', 'appearance', 'thematic', 'taste', 'occasion', 'tool');
+    public $taxonomies = array('spirit', 'type', 'appearance', 'thematic', 'taste', 'occasion', 'tool', array('name' =>'cocktail_tags', 'acf_fields' => ['background_color', 'text_color']));
 
     public function __construct($post_type, $index_name, $algolia_client)
     {

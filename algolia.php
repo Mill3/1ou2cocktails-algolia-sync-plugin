@@ -5,7 +5,7 @@
  * GitHub Plugin URI:  https://github.com/Mill3/1ou2cocktails-algolia-sync-plugin
  * Plugin Name: 1ou2Cocktails - Algolia Sync
  * Description: Sync data from Wordpress to Algolia
- * Version: 0.5.9
+ * Version: 0.5.10
  * Author Name: Mill3 Studio (Antoine Girard)
  *
  * @package Mill3_WP_Algolia_Sync
@@ -32,14 +32,7 @@ class Main {
 
     private function register() {
         $this->registered_post_types['cocktail'] = new \WpAlgolia\Register\Cocktail('cocktail', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['post'] = new \WpAlgolia\Register\Post('post', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['show'] = new \WpAlgolia\Register\Show('show', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['page'] = new \WpAlgolia\Register\Page('page', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['notebook'] = new \WpAlgolia\Register\Notebook('notebook', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['biography'] = new \WpAlgolia\Register\Biography('biography', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['formation'] = new \WpAlgolia\Register\Formation('formation', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['room'] = new \WpAlgolia\Register\Room('room', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        // $this->registered_post_types['show_date'] = new \WpAlgolia\Register\ShowDate('show_date', ALGOLIA_PREFIX . 'show_date', $this->algolia_client);
+        $this->registered_post_types['eat'] = new \WpAlgolia\Register\Cocktail('eat', ALGOLIA_PREFIX . 'content', $this->algolia_client);
     }
 
 }
@@ -66,6 +59,7 @@ add_action(
         // available post types
         require_once __DIR__ . '/post_types/Post.php';
         require_once __DIR__ . '/post_types/Cocktail.php';
+        require_once __DIR__ . '/post_types/Eat.php';
 
         // client
         $algoliaClient = \Algolia\AlgoliaSearch\SearchClient::create(ALGOLIA_APPLICATION_ID, ALGOLIA_ADMIN_API_KEY);

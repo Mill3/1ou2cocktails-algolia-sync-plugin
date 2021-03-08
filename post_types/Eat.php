@@ -11,13 +11,20 @@ namespace WpAlgolia\Register;
 use WpAlgolia\RegisterAbstract as WpAlgoliaRegisterAbstract;
 use WpAlgolia\RegisterInterface as WpAlgoliaRegisterInterface;
 
-class Cocktail extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInterface
+class Eat extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInterface
 {
     public $searchable_fields = array('post_title', 'content', 'post_thumbnail');
 
-    public $acf_fields = array();
+    public $acf_fields = array('subtitle', 'ingredients', 'steps');
 
-    public $taxonomies = array('taste', 'occasion');
+    public $taxonomies = array(
+        'eat_category',
+        'tool',
+        array(
+            'name' =>'eat_tags',
+            'acf_fields' => ['background_color', 'text_color']
+        )
+    );
 
     public function __construct($post_type, $index_name, $algolia_client)
     {
@@ -45,13 +52,6 @@ class Cocktail extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInt
 
     // implement any special data handling for post type here
     public function extraFields($data, $post) {
-
-        // set permalink as formatted url value
-        // $link_to_permalink = get_field('link_to_permalink', $postID);
-        // if ($link_to_permalink) {
-        //     $permalink = get_permalink($postID);
-        //     $data['formated_url'] = "href='{$permalink}'";
-        // }
         return $data;
     }
 }

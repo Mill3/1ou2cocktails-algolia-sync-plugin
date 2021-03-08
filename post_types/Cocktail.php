@@ -11,13 +11,25 @@ namespace WpAlgolia\Register;
 use WpAlgolia\RegisterAbstract as WpAlgoliaRegisterAbstract;
 use WpAlgolia\RegisterInterface as WpAlgoliaRegisterInterface;
 
-class Eat extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInterface
+class Cocktail extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInterface
 {
     public $searchable_fields = array('post_title', 'content', 'post_thumbnail');
 
     public $acf_fields = array('subtitle', 'ingredients', 'steps');
 
-    public $taxonomies = array('spirit', 'type', 'appearance', 'thematic', 'taste', 'occasion', 'tool', array('name' =>'cocktail_tags', 'acf_fields' => ['background_color', 'text_color']));
+    public $taxonomies = array(
+        'spirit',
+        'type',
+        'appearance',
+        'thematic',
+        'taste',
+        'occasion',
+        'tool',
+        array(
+            'name' =>'cocktail_tags',
+            'acf_fields' => ['background_color', 'text_color']
+        )
+    );
 
     public function __construct($post_type, $index_name, $algolia_client)
     {

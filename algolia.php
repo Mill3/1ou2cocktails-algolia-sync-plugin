@@ -5,7 +5,7 @@
  * GitHub Plugin URI:  https://github.com/Mill3/1ou2cocktails-algolia-sync-plugin
  * Plugin Name: 1ou2Cocktails - Algolia Sync
  * Description: Sync data from Wordpress to Algolia
- * Version: 0.5.10
+ * Version: 0.5.11
  * Author Name: Mill3 Studio (Antoine Girard)
  *
  * @package Mill3_WP_Algolia_Sync
@@ -32,7 +32,7 @@ class Main {
 
     private function register() {
         $this->registered_post_types['cocktail'] = new \WpAlgolia\Register\Cocktail('cocktail', ALGOLIA_PREFIX . 'content', $this->algolia_client);
-        $this->registered_post_types['eat'] = new \WpAlgolia\Register\Cocktail('eat', ALGOLIA_PREFIX . 'content', $this->algolia_client);
+        $this->registered_post_types['eat'] = new \WpAlgolia\Register\Eat('eat', ALGOLIA_PREFIX . 'content', $this->algolia_client);
     }
 
 }

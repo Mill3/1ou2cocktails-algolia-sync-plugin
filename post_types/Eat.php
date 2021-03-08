@@ -20,6 +20,7 @@ class Eat extends WpAlgoliaRegisterAbstract implements WpAlgoliaRegisterInterfac
     public $taxonomies = array(
         'eat_category',
         'tool',
+        'flavour-tag',
         array(
             'name' =>'eat_tags',
             'acf_fields' => ['background_color', 'text_color']

@@ -64,7 +64,7 @@ add_action(
         require_once __DIR__ . '/post_types/Page.php';
         require_once __DIR__ . '/post_types/Cocktail.php';
         require_once __DIR__ . '/post_types/Eat.php';
-        require_once __DIR__ . '/post_types/video.php';
+        require_once __DIR__ . '/post_types/Video.php';
 
         // client
         $algoliaClient = \Algolia\AlgoliaSearch\SearchClient::create(ALGOLIA_APPLICATION_ID, ALGOLIA_ADMIN_API_KEY);
